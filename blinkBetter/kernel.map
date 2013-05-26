@@ -1,0 +1,66 @@
+
+Discarded input sections
+
+ .bss           0x00000000        0x0 build/gpio.o
+ .ARM.attributes
+                0x00000000        0x0 build/gpio.o
+ .glue_7        0x00000000        0x0 build/gpio.o
+ .glue_7t       0x00000000        0x0 build/gpio.o
+ .vfp11_veneer  0x00000000        0x0 build/gpio.o
+ .janus_2cc_veneer
+                0x00000000        0x0 build/gpio.o
+ .v4_bx         0x00000000        0x0 build/gpio.o
+ .bss           0x00000000        0x0 build/main.o
+ .ARM.attributes
+                0x00000000        0x0 build/main.o
+ .glue_7        0x00000000        0x0 build/main.o
+ .glue_7t       0x00000000        0x0 build/main.o
+ .vfp11_veneer  0x00000000        0x0 build/main.o
+ .janus_2cc_veneer
+                0x00000000        0x0 build/main.o
+ .v4_bx         0x00000000        0x0 build/main.o
+ .bss           0x00000000        0x0 build/time.o
+ .ARM.attributes
+                0x00000000        0x0 build/time.o
+ .glue_7        0x00000000        0x0 build/time.o
+ .glue_7t       0x00000000        0x0 build/time.o
+ .vfp11_veneer  0x00000000        0x0 build/time.o
+ .janus_2cc_veneer
+                0x00000000        0x0 build/time.o
+ .v4_bx         0x00000000        0x0 build/time.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD build/gpio.o
+LOAD build/main.o
+LOAD build/time.o
+
+.init           0x00000000        0x4
+ *(.init)
+ .init          0x00000000        0x4 build/main.o
+                0x00000000                _start
+
+.text           0x00008000       0x84
+ *(.text)
+ .text          0x00008000       0x38 build/gpio.o
+                0x00008014                ledON
+                0x00008000                initGPIO
+                0x00008024                ledOFF
+ .text          0x00008038       0x20 build/main.o
+ .text          0x00008058       0x2c build/time.o
+                0x00008058                wait
+
+.data           0x00008084        0x0
+ *(.data)
+ .data          0x00008084        0x0 build/gpio.o
+ .data          0x00008084        0x0 build/main.o
+ .data          0x00008084        0x0 build/time.o
+
+/DISCARD/
+ *(*)
+OUTPUT(build/output.elf elf32-littlearm)

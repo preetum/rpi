@@ -1,0 +1,55 @@
+
+build/output.elf:     file format elf32-littlearm
+
+Disassembly of section .init:
+
+00000000 <_start>:
+   0:	ea00200c 	b	8038 <main>
+Disassembly of section .text:
+
+00008000 <initGPIO>:
+    8000:	e59f202c 	ldr	r2, [pc, #44]	; 8034 <ledOFF+0x10>
+    8004:	e3a03001 	mov	r3, #1	; 0x1
+    8008:	e1a03903 	lsl	r3, r3, #18
+    800c:	e5823004 	str	r3, [r2, #4]
+    8010:	e1a0f00e 	mov	pc, lr
+
+00008014 <ledON>:
+    8014:	e59f2018 	ldr	r2, [pc, #24]	; 8034 <ledOFF+0x10>
+    8018:	e3a03801 	mov	r3, #65536	; 0x10000
+    801c:	e5823028 	str	r3, [r2, #40]
+    8020:	e1a0f00e 	mov	pc, lr
+
+00008024 <ledOFF>:
+    8024:	e59f2008 	ldr	r2, [pc, #8]	; 8034 <ledOFF+0x10>
+    8028:	e3a03801 	mov	r3, #65536	; 0x10000
+    802c:	e582301c 	str	r3, [r2, #28]
+    8030:	e1a0f00e 	mov	pc, lr
+    8034:	20200000 	.word	0x20200000
+
+00008038 <main>:
+    8038:	ebfffff0 	bl	8000 <initGPIO>
+    803c:	e59f0010 	ldr	r0, [pc, #16]	; 8054 <loop$+0x14>
+
+00008040 <loop$>:
+    8040:	ebfffff3 	bl	8014 <ledON>
+    8044:	eb000003 	bl	8058 <wait>
+    8048:	ebfffff5 	bl	8024 <ledOFF>
+    804c:	eb000001 	bl	8058 <wait>
+    8050:	eafffffa 	b	8040 <loop$>
+    8054:	000f4240 	.word	0x000f4240
+
+00008058 <wait>:
+    8058:	e59f1020 	ldr	r1, [pc, #32]	; 8080 <stall$+0x10>
+    805c:	e3a02000 	mov	r2, #0	; 0x0
+    8060:	e581200c 	str	r2, [r1, #12]
+    8064:	e5912004 	ldr	r2, [r1, #4]
+    8068:	e0822000 	add	r2, r2, r0
+    806c:	e581200c 	str	r2, [r1, #12]
+
+00008070 <stall$>:
+    8070:	e5912000 	ldr	r2, [r1]
+    8074:	e2122001 	ands	r2, r2, #1	; 0x1
+    8078:	0afffffc 	beq	8070 <stall$>
+    807c:	e1a0f00e 	mov	pc, lr
+    8080:	20003000 	.word	0x20003000
