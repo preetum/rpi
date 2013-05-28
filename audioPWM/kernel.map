@@ -52,7 +52,7 @@ LOAD build/main.o
  .init          0x00000000       0x10 build/start.o
                 0x00000000                _start
 
-.text           0x00008000      0x208
+.text           0x00008000      0x230
  *(.text)
  .text          0x00008000       0xcc build/gpio.o
                 0x00008044                initPWMclk
@@ -63,26 +63,27 @@ LOAD build/main.o
                 0x00008024                ledOFF
                 0x00008034                initPWM40
  .text          0x000080cc        0x0 build/start.o
- .text          0x000080cc       0x2c build/time.o
+ .text          0x000080cc       0x30 build/time.o
                 0x000080cc                wait
- .text          0x000080f8      0x110 build/main.o
-                0x00008134                sin
-                0x00008194                main
-                0x000080f8                _sin
+                0x000080f4                spin
+ .text          0x000080fc      0x134 build/main.o
+                0x00008138                sin
+                0x00008198                main
+                0x000080fc                _sin
 
-.bss            0x00008208        0x0
+.bss            0x00008230        0x0
  *(.bss*)
- .bss           0x00008208        0x0 build/gpio.o
- .bss           0x00008208        0x0 build/start.o
- .bss           0x00008208        0x0 build/time.o
- .bss           0x00008208        0x0 build/main.o
+ .bss           0x00008230        0x0 build/gpio.o
+ .bss           0x00008230        0x0 build/start.o
+ .bss           0x00008230        0x0 build/time.o
+ .bss           0x00008230        0x0 build/main.o
 
-.data           0x00008208        0x0
+.data           0x00008230        0x0
  *(.data)
- .data          0x00008208        0x0 build/gpio.o
- .data          0x00008208        0x0 build/start.o
- .data          0x00008208        0x0 build/time.o
- .data          0x00008208        0x0 build/main.o
+ .data          0x00008230        0x0 build/gpio.o
+ .data          0x00008230        0x0 build/start.o
+ .data          0x00008230        0x0 build/time.o
+ .data          0x00008230        0x0 build/main.o
 
 /DISCARD/
  *(*)

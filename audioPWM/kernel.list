@@ -6,7 +6,7 @@ Disassembly of section .init:
 00000000 <_start>:
    0:	e3a0d902 	mov	sp, #32768	; 0x8000
    4:	eb001ffd 	bl	8000 <initLED>
-   8:	eb002061 	bl	8194 <main>
+   8:	eb002062 	bl	8198 <main>
 
 0000000c <halt$>:
    c:	eafffffe 	b	c <halt$>
@@ -82,7 +82,7 @@ Disassembly of section .text:
     80c8:	5a000016 	.word	0x5a000016
 
 000080cc <wait>:
-    80cc:	e59f1020 	ldr	r1, [pc, #32]	; 80f4 <stall$+0x10>
+    80cc:	e59f1024 	ldr	r1, [pc, #36]	; 80f8 <spin+0x4>
     80d0:	e3a02000 	mov	r2, #0	; 0x0
     80d4:	e581200c 	str	r2, [r1, #12]
     80d8:	e5912004 	ldr	r2, [r1, #4]
@@ -94,78 +94,90 @@ Disassembly of section .text:
     80e8:	e2122001 	ands	r2, r2, #1	; 0x1
     80ec:	0afffffc 	beq	80e4 <stall$>
     80f0:	e1a0f00e 	mov	pc, lr
-    80f4:	20003000 	.word	0x20003000
 
-000080f8 <_sin>:
-    80f8:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
-    80fc:	e28db000 	add	fp, sp, #0	; 0x0
-    8100:	e24dd00c 	sub	sp, sp, #12	; 0xc
-    8104:	e50b0008 	str	r0, [fp, #-8]
-    8108:	e51b3008 	ldr	r3, [fp, #-8]
-    810c:	e1a01483 	lsl	r1, r3, #9
-    8110:	e51b2008 	ldr	r2, [fp, #-8]
-    8114:	e51b3008 	ldr	r3, [fp, #-8]
-    8118:	e0030392 	mul	r3, r2, r3
-    811c:	e0633001 	rsb	r3, r3, r1
-    8120:	e1a03343 	asr	r3, r3, #6
-    8124:	e1a00003 	mov	r0, r3
-    8128:	e28bd000 	add	sp, fp, #0	; 0x0
-    812c:	e8bd0800 	pop	{fp}
-    8130:	e12fff1e 	bx	lr
+000080f4 <spin>:
+    80f4:	e1a0f00e 	mov	pc, lr
+    80f8:	20003000 	.word	0x20003000
 
-00008134 <sin>:
-    8134:	e92d4800 	push	{fp, lr}
-    8138:	e28db004 	add	fp, sp, #4	; 0x4
-    813c:	e24dd008 	sub	sp, sp, #8	; 0x8
-    8140:	e50b0008 	str	r0, [fp, #-8]
-    8144:	e51b3008 	ldr	r3, [fp, #-8]
-    8148:	e3530c02 	cmp	r3, #512	; 0x200
-    814c:	da000007 	ble	8170 <sin+0x3c>
-    8150:	e51b3008 	ldr	r3, [fp, #-8]
-    8154:	e2433c02 	sub	r3, r3, #512	; 0x200
-    8158:	e1a00003 	mov	r0, r3
-    815c:	ebffffe5 	bl	80f8 <_sin>
-    8160:	e1a03000 	mov	r3, r0
-    8164:	e2633000 	rsb	r3, r3, #0	; 0x0
-    8168:	e50b300c 	str	r3, [fp, #-12]
-    816c:	ea000003 	b	8180 <sin+0x4c>
-    8170:	e51b0008 	ldr	r0, [fp, #-8]
-    8174:	ebffffdf 	bl	80f8 <_sin>
-    8178:	e1a03000 	mov	r3, r0
-    817c:	e50b300c 	str	r3, [fp, #-12]
-    8180:	e51b300c 	ldr	r3, [fp, #-12]
-    8184:	e1a00003 	mov	r0, r3
-    8188:	e24bd004 	sub	sp, fp, #4	; 0x4
-    818c:	e8bd4800 	pop	{fp, lr}
-    8190:	e12fff1e 	bx	lr
+000080fc <_sin>:
+    80fc:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
+    8100:	e28db000 	add	fp, sp, #0	; 0x0
+    8104:	e24dd00c 	sub	sp, sp, #12	; 0xc
+    8108:	e50b0008 	str	r0, [fp, #-8]
+    810c:	e51b3008 	ldr	r3, [fp, #-8]
+    8110:	e1a01483 	lsl	r1, r3, #9
+    8114:	e51b2008 	ldr	r2, [fp, #-8]
+    8118:	e51b3008 	ldr	r3, [fp, #-8]
+    811c:	e0030392 	mul	r3, r2, r3
+    8120:	e0633001 	rsb	r3, r3, r1
+    8124:	e1a03343 	asr	r3, r3, #6
+    8128:	e1a00003 	mov	r0, r3
+    812c:	e28bd000 	add	sp, fp, #0	; 0x0
+    8130:	e8bd0800 	pop	{fp}
+    8134:	e12fff1e 	bx	lr
 
-00008194 <main>:
-    8194:	e92d4800 	push	{fp, lr}
-    8198:	e28db004 	add	fp, sp, #4	; 0x4
-    819c:	e24dd008 	sub	sp, sp, #8	; 0x8
-    81a0:	ebffffa3 	bl	8034 <initPWM40>
-    81a4:	ebffffa6 	bl	8044 <initPWMclk>
-    81a8:	e3a03000 	mov	r3, #0	; 0x0
-    81ac:	e50b300c 	str	r3, [fp, #-12]
-    81b0:	ea00000e 	b	81f0 <main+0x5c>
-    81b4:	e51b000c 	ldr	r0, [fp, #-12]
-    81b8:	ebffffdd 	bl	8134 <sin>
-    81bc:	e1a03000 	mov	r3, r0
-    81c0:	e2833b01 	add	r3, r3, #1024	; 0x400
-    81c4:	e1a030c3 	asr	r3, r3, #1
-    81c8:	e50b3008 	str	r3, [fp, #-8]
-    81cc:	e51b0008 	ldr	r0, [fp, #-8]
-    81d0:	e3a01b01 	mov	r1, #1024	; 0x400
-    81d4:	ebffffad 	bl	8090 <setPWM1>
-    81d8:	e3a00e8e 	mov	r0, #2272	; 0x8e0
-    81dc:	e2800001 	add	r0, r0, #1	; 0x1
-    81e0:	ebffffb9 	bl	80cc <wait>
-    81e4:	e51b300c 	ldr	r3, [fp, #-12]
-    81e8:	e2833001 	add	r3, r3, #1	; 0x1
-    81ec:	e50b300c 	str	r3, [fp, #-12]
-    81f0:	e51b200c 	ldr	r2, [fp, #-12]
-    81f4:	e3a03fff 	mov	r3, #1020	; 0x3fc
-    81f8:	e2833003 	add	r3, r3, #3	; 0x3
-    81fc:	e1520003 	cmp	r2, r3
-    8200:	daffffeb 	ble	81b4 <main+0x20>
-    8204:	eaffffe7 	b	81a8 <main+0x14>
+00008138 <sin>:
+    8138:	e92d4800 	push	{fp, lr}
+    813c:	e28db004 	add	fp, sp, #4	; 0x4
+    8140:	e24dd008 	sub	sp, sp, #8	; 0x8
+    8144:	e50b0008 	str	r0, [fp, #-8]
+    8148:	e51b3008 	ldr	r3, [fp, #-8]
+    814c:	e3530c02 	cmp	r3, #512	; 0x200
+    8150:	da000007 	ble	8174 <sin+0x3c>
+    8154:	e51b3008 	ldr	r3, [fp, #-8]
+    8158:	e2433c02 	sub	r3, r3, #512	; 0x200
+    815c:	e1a00003 	mov	r0, r3
+    8160:	ebffffe5 	bl	80fc <_sin>
+    8164:	e1a03000 	mov	r3, r0
+    8168:	e2633000 	rsb	r3, r3, #0	; 0x0
+    816c:	e50b300c 	str	r3, [fp, #-12]
+    8170:	ea000003 	b	8184 <sin+0x4c>
+    8174:	e51b0008 	ldr	r0, [fp, #-8]
+    8178:	ebffffdf 	bl	80fc <_sin>
+    817c:	e1a03000 	mov	r3, r0
+    8180:	e50b300c 	str	r3, [fp, #-12]
+    8184:	e51b300c 	ldr	r3, [fp, #-12]
+    8188:	e1a00003 	mov	r0, r3
+    818c:	e24bd004 	sub	sp, fp, #4	; 0x4
+    8190:	e8bd4800 	pop	{fp, lr}
+    8194:	e12fff1e 	bx	lr
+
+00008198 <main>:
+    8198:	e92d4800 	push	{fp, lr}
+    819c:	e28db004 	add	fp, sp, #4	; 0x4
+    81a0:	e24dd010 	sub	sp, sp, #16	; 0x10
+    81a4:	ebffffa2 	bl	8034 <initPWM40>
+    81a8:	ebffffa5 	bl	8044 <initPWMclk>
+    81ac:	e3a03000 	mov	r3, #0	; 0x0
+    81b0:	e50b3010 	str	r3, [fp, #-16]
+    81b4:	ea000019 	b	8220 <main+0x88>
+    81b8:	e51b3010 	ldr	r3, [fp, #-16]
+    81bc:	e1a03183 	lsl	r3, r3, #3
+    81c0:	e1a00003 	mov	r0, r3
+    81c4:	ebffffdb 	bl	8138 <sin>
+    81c8:	e1a03000 	mov	r3, r0
+    81cc:	e2833b01 	add	r3, r3, #1024	; 0x400
+    81d0:	e1a030c3 	asr	r3, r3, #1
+    81d4:	e50b300c 	str	r3, [fp, #-12]
+    81d8:	e51b000c 	ldr	r0, [fp, #-12]
+    81dc:	e3a01b01 	mov	r1, #1024	; 0x400
+    81e0:	ebffffaa 	bl	8090 <setPWM1>
+    81e4:	e3a03000 	mov	r3, #0	; 0x0
+    81e8:	e50b3008 	str	r3, [fp, #-8]
+    81ec:	ea000003 	b	8200 <main+0x68>
+    81f0:	ebffffbf 	bl	80f4 <spin>
+    81f4:	e51b3008 	ldr	r3, [fp, #-8]
+    81f8:	e2833001 	add	r3, r3, #1	; 0x1
+    81fc:	e50b3008 	str	r3, [fp, #-8]
+    8200:	e51b2008 	ldr	r2, [fp, #-8]
+    8204:	e3a03d4e 	mov	r3, #4992	; 0x1380
+    8208:	e2833007 	add	r3, r3, #7	; 0x7
+    820c:	e1520003 	cmp	r2, r3
+    8210:	dafffff6 	ble	81f0 <main+0x58>
+    8214:	e51b3010 	ldr	r3, [fp, #-16]
+    8218:	e2833001 	add	r3, r3, #1	; 0x1
+    821c:	e50b3010 	str	r3, [fp, #-16]
+    8220:	e51b3010 	ldr	r3, [fp, #-16]
+    8224:	e353007f 	cmp	r3, #127	; 0x7f
+    8228:	daffffe2 	ble	81b8 <main+0x20>
+    822c:	eaffffde 	b	81ac <main+0x14>

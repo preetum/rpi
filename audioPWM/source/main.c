@@ -1,6 +1,7 @@
 extern void ledON();
 extern void ledOFF();
 extern void wait(int); /* in uS */
+extern void spin();
 
 extern void initPWM40();
 extern void initPWMclk();
@@ -27,12 +28,14 @@ int main()
 
 	while(1)
 	{
-		for(int x = 0; x < 1024; x++)
+		for(int x = 0; x < 128; x++)
 		{
-			int pwm = (sin(x) + 1024) >> 1;
+			int pwm = (sin(8*x) + 1024) >> 1;
 			setPWM1(pwm, 1024);
 
-			wait(2273); //440Hz
+			for(int k = 0; k < 5000; k++)
+				spin();
+			//wait(16); //want 128 cycles in ~2270uS for 440Hz. so ~16uS per cycle.
 		}
 	}
 }

@@ -13,3 +13,7 @@ ldr r2, [base]
 ands r2, r2, #1
 beq stall$
 mov pc, lr
+
+.globl spin
+spin:
+mov pc, lr
