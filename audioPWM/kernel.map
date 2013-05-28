@@ -1,0 +1,89 @@
+
+Discarded input sections
+
+ .ARM.attributes
+                0x00000000        0x0 build/gpio.o
+ .glue_7        0x00000000        0x0 build/gpio.o
+ .glue_7t       0x00000000        0x0 build/gpio.o
+ .vfp11_veneer  0x00000000        0x0 build/gpio.o
+ .janus_2cc_veneer
+                0x00000000        0x0 build/gpio.o
+ .v4_bx         0x00000000        0x0 build/gpio.o
+ .ARM.attributes
+                0x00000000        0x0 build/start.o
+ .glue_7        0x00000000        0x0 build/start.o
+ .glue_7t       0x00000000        0x0 build/start.o
+ .vfp11_veneer  0x00000000        0x0 build/start.o
+ .janus_2cc_veneer
+                0x00000000        0x0 build/start.o
+ .v4_bx         0x00000000        0x0 build/start.o
+ .ARM.attributes
+                0x00000000        0x0 build/time.o
+ .glue_7        0x00000000        0x0 build/time.o
+ .glue_7t       0x00000000        0x0 build/time.o
+ .vfp11_veneer  0x00000000        0x0 build/time.o
+ .janus_2cc_veneer
+                0x00000000        0x0 build/time.o
+ .v4_bx         0x00000000        0x0 build/time.o
+ .comment       0x00000000        0x0 build/main.o
+ .ARM.attributes
+                0x00000000        0x0 build/main.o
+ .glue_7        0x00000000        0x0 build/main.o
+ .glue_7t       0x00000000        0x0 build/main.o
+ .vfp11_veneer  0x00000000        0x0 build/main.o
+ .janus_2cc_veneer
+                0x00000000        0x0 build/main.o
+ .v4_bx         0x00000000        0x0 build/main.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD build/gpio.o
+LOAD build/start.o
+LOAD build/time.o
+LOAD build/main.o
+
+.init           0x00000000       0x10
+ *(.init)
+ .init          0x00000000       0x10 build/start.o
+                0x00000000                _start
+
+.text           0x00008000      0x208
+ *(.text)
+ .text          0x00008000       0xcc build/gpio.o
+                0x00008044                initPWMclk
+                0x00008014                ledON
+                0x000080a8                clearPWM1
+                0x00008090                setPWM1
+                0x00008000                initLED
+                0x00008024                ledOFF
+                0x00008034                initPWM40
+ .text          0x000080cc        0x0 build/start.o
+ .text          0x000080cc       0x2c build/time.o
+                0x000080cc                wait
+ .text          0x000080f8      0x110 build/main.o
+                0x00008134                sin
+                0x00008194                main
+                0x000080f8                _sin
+
+.bss            0x00008208        0x0
+ *(.bss*)
+ .bss           0x00008208        0x0 build/gpio.o
+ .bss           0x00008208        0x0 build/start.o
+ .bss           0x00008208        0x0 build/time.o
+ .bss           0x00008208        0x0 build/main.o
+
+.data           0x00008208        0x0
+ *(.data)
+ .data          0x00008208        0x0 build/gpio.o
+ .data          0x00008208        0x0 build/start.o
+ .data          0x00008208        0x0 build/time.o
+ .data          0x00008208        0x0 build/main.o
+
+/DISCARD/
+ *(*)
+OUTPUT(build/output.elf elf32-littlearm)
