@@ -26,14 +26,15 @@ int main()
 	initPWM40();
 	initPWMclk();
 
+
 	while(1)
 	{
-		for(int x = 0; x < 128; x++)
+		for(int x = 0; x < 1024; x++)
 		{
-			int pwm = (sin(8*x) + 1024) >> 1;
+			int pwm = (sin(x) + 1024) >> 1;
 			setPWM1(pwm, 1024);
 
-			for(int k = 0; k < 5000; k++)
+			for(int k = 0; k < 50/8; k++)
 				spin();
 			//wait(16); //want 128 cycles in ~2270uS for 440Hz. so ~16uS per cycle.
 		}
